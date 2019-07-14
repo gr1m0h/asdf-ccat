@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+
+# check ASDF environment variables
+[ -n "$ASDF_INSTALL_VERSION" ] || (echo 'Missing ASDF_INSTALL_VERSION' >&2 && exit 1)
+[ -n "$ASDF_INSTALL_PATH" ] || (echo 'Missing ASDF_INSTALL_PATH' >&2 && exit 1)
+
+mkdir -p "${ASDF_INSTALL_PATH}/bin"
+toolPath="${ASDF_INSTALL_PATH}/bin/ccat"
+downloadPath="$(mktemp -d)"
+cd "${downloadPath}"
+
+case "$(uname -s)" in
+	"Darwin")
+		DOWNLOAD_URL="https://github.com/jingweno/ccat/releases/download/v${ASDF_INSTALL_VERSION}/darwin-amd64-${ASDF_INSTALL_VERSION}.tar.gz"
+		curl -fL -o "${downloadPath}/ccat.tar.gz" "${DOWNLOAD_URL}"
+		tar xzf ccat.tar.gz
+		mv ./darwin-amd64-${ASDF_INSTALL_VERSION}/ccat "${toolPath}"
+		;;
+	"Linux")
+		DOWNLOAD_URL="https://github.com/jingweno/ccat/releases/download/v${ASDF_INSTALL_VERSION}/linux-amd64-${ASDF_INSTALL_VERSION}-.tar.gz"
+		curl -fL -o "${downloadPath}/ccat.tar.gz" "${DOWNLOAD_URL}"
+		tar xzf ccat.tar.gz
+		mv ./linux-amd64-${ASDF_INSTALL_VERSION}/ccat "${toolPath}"
+		;;
+esac
+
+chmod +x "${toolPath}"
+rm -rf "${downloadPath}"
