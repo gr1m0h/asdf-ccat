@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
 set -e
 
-echo $(curl \
-    -sf \
-    -H "Accept: application/vnd.github.v3+json" \
-    "https://api.github.com/repos/jingweno/ccat/releases?per_page=30" \
-    | sed -nE 's/^    "tag_name": "v(.+)",$/\1/pg' \
-	| sed -n -e '1!G;h;$p')
+releases_path=https://api.github.com/repos/jingweno/ccat/releases
+cmd="curl -s"
+
+cmd="$cmd $releases_path"
+
+function sort_versions() {
+	sed 'h; s/[+-]/./g; s/.p\([[:digit:]]\)/.z\1/; s/$/.z/; G; s/\n/ /' | \
+    LC_ALL=C sort -t. -k 1,1 -k 2,2n -k 3,3n -k 4,4n -k 5,5n | awk '{print $2}'
+}
+
+versions=$(eval $cmd \
+	| grep -oE "tag_name\": *\".{1,15}\"," \
+	| sed 's/tag_name\": *\"//;s/\",//' \
+	| sort_versions)
+echo $versions
