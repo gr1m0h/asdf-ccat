@@ -18,7 +18,7 @@ case "$(uname -s)" in
 		mv ./darwin-amd64-${ASDF_INSTALL_VERSION}/ccat "${toolPath}"
 		;;
 	"Linux")
-		DOWNLOAD_URL="https://github.com/jingweno/ccat/releases/download/v${ASDF_INSTALL_VERSION}/linux-amd64-${ASDF_INSTALL_VERSION}-.tar.gz"
+		DOWNLOAD_URL="https://github.com/jingweno/ccat/releases/download/v${ASDF_INSTALL_VERSION}/linux-amd64-${ASDF_INSTALL_VERSION}.tar.gz"
 		curl -fL -o "${downloadPath}/ccat.tar.gz" "${DOWNLOAD_URL}"
 		tar xzf ccat.tar.gz
 		mv ./linux-amd64-${ASDF_INSTALL_VERSION}/ccat "${toolPath}"
