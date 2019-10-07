@@ -3,5 +3,5 @@
 
 ## Install
 ```
-asdf plugin-add ccat https://github.com/grimoh117/asdf-ccat.git
+asdf plugin-add ccat https://github.com/grimoh/asdf-ccat.git
 ```
