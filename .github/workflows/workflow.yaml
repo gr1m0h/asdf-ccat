@@ -1,0 +1,28 @@
+name: Main workflow
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest]
+        ccat: [1.1.0]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install asdf-vm
+        run: git clone https://github.com/asdf-vm/asdf.git $HOME/asdf
+
+      - name: Install ccat and run test
+        run: |
+          . $HOME/asdf/asdf.sh
+          asdf plugin-add ccat $GITHUB_WORKSPACE
+          asdf list-all ccat
+          asdf install ccat ${{ matrix.ccat }}
+          asdf global ccat ${{ matrix.ccat }}
+          ccat --version
