@@ -29,7 +29,7 @@ jobs:
       - name: Install ccat and run test
         run: |
           . $HOME/asdf/asdf.sh
-          asdf plugin add ccat$GITHUB_WORKSPACE
+          asdf plugin add ccat $GITHUB_WORKSPACE
           asdf list all ccat
           asdf install ccat ${{ matrix.version }}
           asdf global ccat ${{ matrix.version }}
